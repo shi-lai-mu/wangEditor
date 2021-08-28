@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wangeditor-v5-JQuery-Validate-Demo</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets//js/wangeditor/css/style.css">
+    <link rel="stylesheet" href="./assets/css/screen.css">
+    <script src="./assets/js/jquery-3.6.0.min.js"></script>
+    <script src="./assets/js/jquery.validate.min.js"></script>
+    <script src="./assets/js/wangeditor/index.js"></script>
+  </head>
+  <body>
+    <form id="wangEditorForm" method="get" action="">
+      <div>
+        <label for="title">标题：</label>
+        <input id="title" name="title" />
+      </div>
+      <div>
+        <label for="content">内容：</label>
+        <div class="editor">
+          <div id="editor-toolbar" class="editor-toolbar"></div>
+          <textarea name="content" id="content" class="editor-text-area"></textarea>
+        </div>
+      </div>
+      <div>
+        <input type="submit" class="button" value="提交">
+      </div>
+    </form>
+  </body>
+</html>
+
+
+<script>
+  const E = window.wangEditor;
+  const editorConfig = { MENU_CONF: {} };
+  editorConfig.placeholder = "请输入内容";
+  let editor, toolbar;
+  editor = E.createEditor({
+    textareaSelector: "#content",
+    content: window.content1,
+    config: editorConfig,
+  });
+  toolbar = E.createToolbar({
+    editor,
+    toolbarSelector: "#editor-toolbar",
+  });
+</script>
+
+<script>
+  $(function () {
+    $("#wangEditorForm").validate({
+      submitHandler: function (form) {
+        form.submit();
+        alert("提交表单", form);
+      },
+      rules: {
+        title: {
+          required: true,
+        },
+        content: {
+          required: true,
+          normalizer: function(value) {
+            console.log({value});
+            return $.trim(value);
+          }
+        },
+      },
+      messages: {
+        title: {
+          required: "标题必填",
+        },
+        content: {
+          required: "富文本内容必填",
+        },
+      },
+    });
+  });
+</script>
